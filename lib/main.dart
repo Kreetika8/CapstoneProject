@@ -16,7 +16,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => OnBoardNotifier()),
         ChangeNotifierProvider(create: (context) => LoginNotifier()),
-        // ChangeNotifierProvider(create: (context) => ZoomNotifier()),
+        ChangeNotifierProvider(create: (context) => ZoomNotifier()),
         ChangeNotifierProvider(create: (context) => SignUpNotifier()),
         ChangeNotifierProvider(create: (context) => JobsNotifier()),
         // ChangeNotifierProvider(create: (context) => BookMarkNotifier()),

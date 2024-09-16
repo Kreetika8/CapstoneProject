@@ -7,6 +7,7 @@ import 'package:classico/views/common/custom_textfield.dart';
 import 'package:classico/views/common/height_spacer.dart';
 import 'package:classico/views/common/reusable_text.dart';
 import 'package:classico/views/ui/authent/signup.dart';
+import 'package:classico/views/ui/search/mainscreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -131,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                   HeightSpacer(size: 50),
                   CustomButton(
                     OnTap: () {
-
+                      Get.to(() => MainScreen());
                     },
                     text: "Login",
                   )

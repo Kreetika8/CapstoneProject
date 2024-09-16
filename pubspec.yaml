@@ -40,5 +40,7 @@ flutter:
   assets:
     - assets/images/LandingImage.png  # Image for the landing page
     - assets/images/PageTwo.png       # Image for Page Two
-    - assets/images/PageThree.png       # Image for Page Two
+    - assets/images/PageThree.png 
+    - assets/images/user.png 
+    - assets/icons/menu.svg      
 

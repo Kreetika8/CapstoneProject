@@ -16,12 +16,12 @@ class PageTwo extends StatelessWidget {
         color: Color(kDarkBlue.value),
         child: Column(
           children: [
-            const HeightSpacer(size: 65),
+            const HeightSpacer(size: 100),
             Padding(
               padding: EdgeInsets.all(8.h),
               child: Image.asset("assets/images/PageTwo.png"),
             ),
-            const HeightSpacer(size: 20),
+            const HeightSpacer(size: 50),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -30,7 +30,7 @@ class PageTwo extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: appstyle(30, Color(kLight.value), FontWeight.w500),
                 ),
-                const HeightSpacer(size: 10),
+                const HeightSpacer(size: 20),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w), // Adjust padding to your liking
                   child: Text(
