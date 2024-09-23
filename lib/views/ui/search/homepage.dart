@@ -5,6 +5,7 @@ import 'package:classico/views/common/drawer/drawer_widget.dart';
 import 'package:classico/views/common/heading_widget.dart';
 import 'package:classico/views/common/height_spacer.dart';
 import 'package:classico/views/common/horizontal_tile.dart';
+import 'package:classico/views/common/vertical_tile.dart';
 import 'package:classico/views/ui/search/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -83,6 +84,9 @@ class _HomePageState extends State<Homepage> {
                   text: "Recently Posted",
                   onTap: () {},
                 ),
+
+                const HeightSpacer (size:20),
+                VerticalTile()
               ],
             ),
           ),

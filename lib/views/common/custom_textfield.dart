@@ -10,7 +10,8 @@ class CustomTextfield extends StatelessWidget {
     required this.keyboardType,
     this.validator,
     this.suffixIcon,
-    required this.obscureText, 
+    required this.obscureText,
+    this.maxLines = 1, // default value of 1 for single-line input
   });
 
   final TextEditingController controller;
@@ -19,12 +20,14 @@ class CustomTextfield extends StatelessWidget {
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
   final bool obscureText;
+  final int maxLines; // Declare maxLines here
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       keyboardType: keyboardType,
       obscureText: obscureText,
+      maxLines: maxLines, // Use maxLines in the TextFormField
       decoration: InputDecoration(
         hintText: hintText,
         suffixIcon: suffixIcon,
@@ -49,12 +52,12 @@ class CustomTextfield extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Color(kDark.value), width: 1),
         ),
-        border: OutlineInputBorder( // Set default border style
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Color(kDark.value), width: 1),
         ),
-        fillColor: Color(kLight.value), // Set background color here
-        filled: true, // Add this to make the background color visible
+        fillColor: Color(kLight.value),
+        filled: true,
       ),
       controller: controller,
       cursorHeight: 25,

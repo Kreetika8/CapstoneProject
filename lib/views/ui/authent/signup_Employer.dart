@@ -7,20 +7,21 @@ import 'package:classico/views/common/custom_textfield.dart';
 import 'package:classico/views/common/height_spacer.dart';
 import 'package:classico/views/common/reusable_text.dart';
 import 'package:classico/views/ui/authent/login.dart';
-import 'package:classico/views/ui/authent/signup_Employer.dart';
+import 'package:classico/views/ui/authent/login_Employer.dart';
+import 'package:classico/views/ui/authent/signup.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class RegistrationPage extends StatefulWidget {
-  const RegistrationPage({super.key});
+class SignupEmployer extends StatefulWidget {
+  const SignupEmployer({super.key});
 
   @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
+  State<SignupEmployer> createState() => _RegistrationPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
+class _RegistrationPageState extends State<SignupEmployer> {
   final _formKey = GlobalKey<FormState>(); // Define the form key
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -152,7 +153,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
                       onTap: () {
-                        Get.to(() => const LoginPage());
+                        Get.to(() => const LoginEmployer());
                       },
                       child: RichText(
                         text: TextSpan(
@@ -179,17 +180,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         // Perform sign-up action
                       }
                     },
-                    text: "Signup as a Worker",
+                    text: "Signup as a employer",
                   ),
                   HeightSpacer(size: 20),
                 Align(
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(() => SignupEmployer());  // Navigate to MainScreenEmployer on tap
+                      Get.to(() => RegistrationPage());  // Navigate to MainScreenEmployer on tap
                     },
                     child: Text(
-                      "Are you a employer? Click here",
+                      "Are you a worker? Click here",
                       style: appstyle(
                           14, Color(kLightBlue.value), FontWeight.w500),
                     ),

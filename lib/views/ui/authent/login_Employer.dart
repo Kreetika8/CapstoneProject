@@ -6,22 +6,24 @@ import 'package:classico/views/common/custom_btn.dart';
 import 'package:classico/views/common/custom_textfield.dart';
 import 'package:classico/views/common/height_spacer.dart';
 import 'package:classico/views/common/reusable_text.dart';
-import 'package:classico/views/ui/authent/login_Employer.dart';
+import 'package:classico/views/ui/authent/login.dart';
 import 'package:classico/views/ui/authent/signup.dart';
+import 'package:classico/views/ui/authent/signup_Employer.dart';
 import 'package:classico/views/ui/search/mainscreen.dart';
+import 'package:classico/views/ui/search/mainscreen_Employer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginEmployer extends StatefulWidget {
+  const LoginEmployer({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginEmployer> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends State<LoginEmployer> {
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
 
@@ -107,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.centerRight,
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(() => const RegistrationPage());
+                      Get.to(() => const SignupEmployer());
                     },
                     child: RichText(
                       text: TextSpan(
@@ -130,19 +132,19 @@ class _LoginPageState extends State<LoginPage> {
                 HeightSpacer(size: 50),
                 CustomButton(
                   OnTap: () {
-                    Get.to(() => MainScreen());
+                    Get.to(() => MainscreenEmployer());;
                   },
-                  text: "Login as a Worker",
+                  text: "Login as a Employer",
                 ),
                 HeightSpacer(size: 20),
                 Align(
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
-                      Get.to(() => LoginEmployer());  // Navigate to MainScreenEmployer on tap
+                      Get.to(() => LoginPage());  // Navigate to MainScreenEmployer on tap
                     },
                     child: Text(
-                      "Are you a employer? Click here",
+                      "Are you a worker? Click here",
                       style: appstyle(
                           14, Color(kLightBlue.value), FontWeight.w500),
                     ),
