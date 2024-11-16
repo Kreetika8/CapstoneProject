@@ -6,7 +6,7 @@ import 'package:classico/views/common/width_spacer.dart';
 import 'package:classico/views/ui/applications/applications.dart';
 import 'package:classico/views/ui/authent/profile.dart';
 import 'package:classico/views/ui/chat/chatpage.dart';
-import 'package:classico/views/ui/likes/widgets/likes.dart';
+import 'package:classico/views/ui/likes/likes.dart';
 import 'package:classico/views/ui/search/homepage.dart';
 import 'package:classico/views/ui/employerUI/homepage_employer.dart';
 import 'package:flutter/material.dart';

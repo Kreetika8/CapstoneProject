@@ -15,3 +15,12 @@ double height = 812.h;
 double width = 375.w;
 
 String theId = "";
+
+List<String> requirements = [
+  "nnnnnmhfghncfghjklmnbvcxnjj",
+  "nnnnnmhfghncfghjklmnbvcxnjj",
+  "nnnnnmhfghncfghjklmnbvcxnjj",
+  
+  ];
+
+String desc = "bhgdgajdgfajdghfahdgjad";

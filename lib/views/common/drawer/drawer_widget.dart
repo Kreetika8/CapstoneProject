@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
 
@@ -11,11 +10,17 @@ class DrawerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        ZoomDrawer.of(context)!.toggle();
+        final zoomDrawer = ZoomDrawer.of(context);
+        if (zoomDrawer != null) {
+          zoomDrawer.toggle();
+        } else {
+          print('ZoomDrawer is null');
+        }
       },
-      child: SvgPicture.asset("assets/icons/menu.svg", 
-      width: 30.w, 
-      height: 30.h,
+      child: SvgPicture.asset(
+        "assets/icons/menu.svg", 
+        width: 30.w, 
+        height: 30.h,
       ),
     );
   }
