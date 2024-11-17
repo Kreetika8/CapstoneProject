@@ -8,6 +8,7 @@ import 'package:classico/views/common/horizontal_tile.dart';
 import 'package:classico/views/common/vertical_tile.dart';
 import 'package:classico/views/ui/jobs/widgets/job_page.dart';
 import 'package:classico/views/ui/search/search.dart';
+import 'package:classico/views/ui/search/searchpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -68,7 +69,7 @@ class _HomePageState extends State<Homepage> {
                 SearchWidget(
                   onTap: () {
                     // Navigate to the search page
-                    // Get.to(() => const SearchPage());
+                    Get.to(() => const SearchPage());
                   },
                 ),
                 

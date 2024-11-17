@@ -10,6 +10,7 @@ environment:
 dependencies:
   file_picker: ^5.2.1
   permission_handler: ^10.0.0
+  email_validator: ^2.0.1  # Add this line
   flutter:
     sdk: flutter
 
@@ -45,3 +46,5 @@ flutter:
     - assets/images/user.png 
     - assets/images/profile.png 
     - assets/icons/menu.svg  # SVG icon for the menu
+    - assets/images/search.jpg
+
