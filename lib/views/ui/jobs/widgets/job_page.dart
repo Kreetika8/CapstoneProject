@@ -118,7 +118,7 @@ class _JobPageState extends State<JobPage> {
                       scheme: 'mailto',
                       path: 'support@classico.com',
                       query:
-                          'subject=Job Inquiry&body=Hello, I am interested in the job posting.',
+                          'subject=Work Inquiry&body=Hello, I am interested in the work.',
                     );
                     if (await canLaunchUrl(emailLaunchUri)) {
                       await launchUrl(emailLaunchUri);
@@ -184,9 +184,22 @@ class _JobPageState extends State<JobPage> {
                   height: height * 0.06,
                   text: "Connect Now",
                   color: Color(kLight.value),
+                  onTap: () async {
+                    final Uri emailLaunchUri = Uri(
+                      scheme: 'mailto',
+                      path: 'support@classico.com',
+                      query:
+                          'subject=Work Inquiry&body=Hello, I am interested in connecting for this work.',
+                    );
+                    if (await canLaunchUrl(emailLaunchUri)) {
+                      await launchUrl(emailLaunchUri);
+                    } else {
+                      print('Could not launch email client');
+                    }
+                  },
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

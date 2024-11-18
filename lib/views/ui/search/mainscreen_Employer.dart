@@ -5,7 +5,7 @@ import 'package:classico/views/common/reusable_text.dart';
 import 'package:classico/views/common/width_spacer.dart';
 import 'package:classico/views/ui/applications/applications.dart';
 import 'package:classico/views/ui/chat/chatpage.dart';
-import 'package:classico/views/ui/employerUI/addJob.dart';
+import 'package:classico/views/ui/employerUI/creatework.dart';
 import 'package:classico/views/ui/employerUI/profile_employer.dart';
 import 'package:classico/views/ui/likes/likes.dart';
 import 'package:classico/views/ui/search/homepage.dart';
@@ -52,17 +52,14 @@ class _MainScreenState extends State<MainscreenEmployer> {
     switch (zoomNotifier.currentIndex) {
       case 0:
         return const HomepageEmployer();
-
       case 1:
         return const ChatsPage();
       case 2:
-
-        return AddJobPage();
+        return CreateWorkPage();
       case 3:
         return const ApplicationsPage();
       case 4:
         return const ProfilePageEmployer();
-
       default:
         return const Homepage();
     }

@@ -12,7 +12,7 @@ class LikesPage extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.h),
         child: CustomAppBar(
-          text: "LikesPage",
+          text: "Liked Works",
           
           child: Padding(
             padding: EdgeInsets.all(12.0.h),
