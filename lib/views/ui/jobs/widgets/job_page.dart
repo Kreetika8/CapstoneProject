@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class JobPage extends StatefulWidget {
   const JobPage({super.key, required this.title, required this.id});
@@ -49,11 +50,8 @@ class _JobPageState extends State<JobPage> {
               children: [
                 const HeightSpacer(size: 30),
                 Container(
-                  width: MediaQuery.of(context)
-                      .size
-                      .width, // Define width dynamically
-                  height: MediaQuery.of(context).size.height *
-                      0.27, // Define height dynamically
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.27,
                   color: Color(kLightGrey.value),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -107,6 +105,35 @@ class _JobPageState extends State<JobPage> {
                   ),
                 ),
                 const HeightSpacer(size: 20),
+
+                // Email Section
+                ReusableText(
+                  text: "Email us at:",
+                  style: appstyle(22, Color(kDark.value), FontWeight.w600),
+                ),
+                const HeightSpacer(size: 10),
+                GestureDetector(
+                  onTap: () async {
+                    final Uri emailLaunchUri = Uri(
+                      scheme: 'mailto',
+                      path: 'support@classico.com',
+                      query:
+                          'subject=Job Inquiry&body=Hello, I am interested in the job posting.',
+                    );
+                    if (await canLaunchUrl(emailLaunchUri)) {
+                      await launchUrl(emailLaunchUri);
+                    } else {
+                      print('Could not launch email client');
+                    }
+                  },
+                  child: Text(
+                    "support@classico.com",
+                    style: appstyle(16, Color(kOrange.value), FontWeight.w600),
+                  ),
+                ),
+                const HeightSpacer(size: 20),
+
+                // Job Description Section
                 ReusableText(
                     text: "Job Description",
                     style: appstyle(22, Color(kDark.value), FontWeight.w600)),
@@ -119,6 +146,8 @@ class _JobPageState extends State<JobPage> {
                       appstyle(16, Color(kDarkGrey.value), FontWeight.normal),
                 ),
                 const HeightSpacer(size: 30),
+
+                // Requirements Section
                 ReusableText(
                     text: "Requirements",
                     style: appstyle(22, Color(kDark.value), FontWeight.w600)),
@@ -126,7 +155,6 @@ class _JobPageState extends State<JobPage> {
                 SizedBox(
                   height: height * 0.6,
                   child: ListView.builder(
-
                       itemCount: requirements.length,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
@@ -141,21 +169,23 @@ class _JobPageState extends State<JobPage> {
                         );
                       }),
                 ),
-
                 const HeightSpacer(size: 20),
               ],
             ),
 
+            // Bottom Button
             Align(
               alignment: Alignment.bottomCenter,
-              child: Padding(padding: EdgeInsets.only(bottom: 20.h),
-              child: CustomOutlineBtn(
-                color2: Color(kOrange.value),
-                width: width,
-                height: height * 0.06,
-                text: "Apply Now", 
-                color: Color(kLight.value),),),
-
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 20.h),
+                child: CustomOutlineBtn(
+                  color2: Color(kOrange.value),
+                  width: width,
+                  height: height * 0.06,
+                  text: "Connect Now",
+                  color: Color(kLight.value),
+                ),
+              ),
             )
           ],
         ),
