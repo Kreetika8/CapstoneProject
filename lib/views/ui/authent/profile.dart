@@ -26,7 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController companyController = TextEditingController();
   TextEditingController aboutMeController = TextEditingController();
 
-  
   File? _profileImage; // Store the selected image
   File? _resumeFile; // Store the selected PDF file
 
@@ -36,7 +35,8 @@ class _ProfilePageState extends State<ProfilePage> {
   // Method to pick an image from the gallery or camera
   Future<void> _pickImage() async {
     final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource.gallery, // You can change this to ImageSource.camera for camera
+      source: ImageSource
+          .gallery, // You can change this to ImageSource.camera for camera
     );
 
     if (pickedFile != null) {
@@ -55,17 +55,17 @@ class _ProfilePageState extends State<ProfilePage> {
 
     if (result != null && result.files.isNotEmpty) {
       setState(() {
-        _resumeFile = File(result.files.single.path!); // Store the selected file
+        _resumeFile =
+            File(result.files.single.path!); // Store the selected file
       });
     } else {
       // Handle case when no file is selected
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No file selected or file type not supported.')),
+        const SnackBar(
+            content: Text('No file selected or file type not supported.')),
       );
     }
   }
-
-
 
   // Method to show error messages
   void _showError(String message) {
@@ -82,14 +82,17 @@ class _ProfilePageState extends State<ProfilePage> {
     showDialog(
       context: context,
       builder: (context) {
-        TextEditingController controller = TextEditingController(text: phoneController.text);
+        TextEditingController controller =
+            TextEditingController(text: phoneController.text);
         return AlertDialog(
           title: const Text("Edit Phone Number"),
           content: TextField(
             controller: controller,
             decoration: const InputDecoration(labelText: "Phone Number"),
             keyboardType: TextInputType.phone,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Allow only digits
+            inputFormatters: [
+              FilteringTextInputFormatter.digitsOnly
+            ], // Allow only digits
           ),
           actions: [
             TextButton(
@@ -116,7 +119,8 @@ class _ProfilePageState extends State<ProfilePage> {
     showDialog(
       context: context,
       builder: (context) {
-        TextEditingController controller = TextEditingController(text: emailController.text);
+        TextEditingController controller =
+            TextEditingController(text: emailController.text);
         return AlertDialog(
           title: const Text("Edit Email"),
           content: TextField(
@@ -144,40 +148,42 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-void _editAboutMe() {
-  showDialog(
-    context: context,
-    builder: (context) {
-      TextEditingController controller = TextEditingController(text: aboutMeController.text);
-      return AlertDialog(
-        title: const Text("Edit About Me"),
-        content: TextField(
-          controller: controller,
-          maxLines: 4, // Allow multiline input
-          decoration: const InputDecoration(labelText: "About Me"),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              setState(() {
-                aboutMeController.text = controller.text;
-              });
-              Navigator.of(context).pop();
-            },
-            child: const Text("Save"),
+  void _editAboutMe() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        TextEditingController controller =
+            TextEditingController(text: aboutMeController.text);
+        return AlertDialog(
+          title: const Text("Edit About Me"),
+          content: TextField(
+            controller: controller,
+            maxLines: 4, // Allow multiline input
+            decoration: const InputDecoration(labelText: "About Me"),
           ),
-        ],
-      );
-    },
-  );
-}
+          actions: [
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  aboutMeController.text = controller.text;
+                });
+                Navigator.of(context).pop();
+              },
+              child: const Text("Save"),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   // Edit Name Method
   void _editName() {
     showDialog(
       context: context,
       builder: (context) {
-        TextEditingController controller = TextEditingController(text: nameController.text);
+        TextEditingController controller =
+            TextEditingController(text: nameController.text);
         return AlertDialog(
           title: const Text("Edit Name"),
           content: TextField(
@@ -200,8 +206,6 @@ void _editAboutMe() {
     );
   }
 
-
-
   // In your logout method:
   void _logout() {
     // Show confirmation dialog
@@ -217,7 +221,9 @@ void _editAboutMe() {
                 // Navigate to PageOne and remove the current screen from the stack
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const PageThree()), // PageOne is your target page
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          const PageThree()), // PageOne is your target page
                 );
               },
               child: const Text("Yes"),
@@ -268,11 +274,13 @@ void _editAboutMe() {
                         child: _profileImage == null
                             ? Image.asset(
                                 'assets/images/user.png', // Default image
-                                fit: BoxFit.cover, // Ensure the image covers the circle
+                                fit: BoxFit
+                                    .cover, // Ensure the image covers the circle
                               )
                             : Image.file(
                                 _profileImage!, // Display selected image
-                                fit: BoxFit.cover, // Ensure the image covers the circle
+                                fit: BoxFit
+                                    .cover, // Ensure the image covers the circle
                               ),
                       ),
                     ),
@@ -281,7 +289,7 @@ void _editAboutMe() {
               ),
             ),
           ),
-          
+
           // Editable Information Section
           Padding(
             padding: EdgeInsets.all(20.0.h),
@@ -289,7 +297,8 @@ void _editAboutMe() {
               children: [
                 // Editable Name Box
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 12.0.h),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 15.0.w, vertical: 12.0.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.white,
@@ -308,7 +317,8 @@ void _editAboutMe() {
                       children: [
                         Text(
                           "Name: ${nameController.text}",
-                          style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 18.0.sp, fontWeight: FontWeight.w600),
                         ),
                         Icon(Icons.edit),
                       ],
@@ -317,48 +327,51 @@ void _editAboutMe() {
                 ),
                 const SizedBox(height: 15),
 
-
                 // Add this below the existing Editable Name Box
 
 // Editable About Me Box
-Container(
-  padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 12.0.h),
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(12),
-    color: Colors.white,
-    boxShadow: const [
-      BoxShadow(
-        color: Colors.black26,
-        blurRadius: 5,
-        offset: Offset(0, 3),
-      ),
-    ],
-  ),
-  child: GestureDetector(
-    onTap: _editAboutMe, // Add _editAboutMe function to handle changes
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Expanded(
-          child: Text(
-            aboutMeController.text.isEmpty
-                ? "About Me: Tap to edit"
-                : "About Me: ${aboutMeController.text}",
-            style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.w600),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-        ),
-        Icon(Icons.edit),
-      ],
-    ),
-  ),
-),
-const SizedBox(height: 15),
+                Container(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 15.0.w, vertical: 12.0.h),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Colors.white,
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: GestureDetector(
+                    onTap:
+                        _editAboutMe, // Add _editAboutMe function to handle changes
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            aboutMeController.text.isEmpty
+                                ? "About Me: Tap to edit"
+                                : "About Me: ${aboutMeController.text}",
+                            style: TextStyle(
+                                fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                        Icon(Icons.edit),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
 
                 // Editable Email Box
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 12.0.h),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 15.0.w, vertical: 12.0.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.white,
@@ -377,7 +390,8 @@ const SizedBox(height: 15),
                       children: [
                         Text(
                           "Email: ${emailController.text}",
-                          style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 18.0.sp, fontWeight: FontWeight.w600),
                         ),
                         Icon(Icons.edit),
                       ],
@@ -385,10 +399,11 @@ const SizedBox(height: 15),
                   ),
                 ),
                 const SizedBox(height: 15),
-                
+
                 // Editable Phone Box
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 12.0.h),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 15.0.w, vertical: 12.0.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.white,
@@ -407,7 +422,8 @@ const SizedBox(height: 15),
                       children: [
                         Text(
                           "Phone: ${phoneController.text}",
-                          style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                          style: TextStyle(
+                              fontSize: 18.0.sp, fontWeight: FontWeight.w600),
                         ),
                         Icon(Icons.edit),
                       ],
@@ -415,39 +431,72 @@ const SizedBox(height: 15),
                   ),
                 ),
                 const SizedBox(height: 15),
-                
+
                 // Resume Upload Section
-GestureDetector(
-  onTap: _pickResume,
-  child: Container(
-    padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 12.0.h),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),
-      color: Colors.white,
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black26,
-          blurRadius: 5,
-          offset: Offset(0, 3),
-        ),
-      ],
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // Wrap the text with Expanded to prevent overflow
-        Expanded(
-          child: Text(
-            _resumeFile == null
-                ? "Upload Resume (PDF)"
-                : "Resume: ${path.basename(_resumeFile!.path)}",
-            style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.w600),
-            overflow: TextOverflow.ellipsis, // Ensures long text is truncated
-            maxLines: 1, // Limits to a single line
-          ),
-        ),
+                GestureDetector(
+                  onTap: _pickResume,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 15.0.w, vertical: 12.0.h),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: Colors.white,
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 5,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        // Wrap the text with Expanded to prevent overflow
+                        Expanded(
+                          child: Text(
+                            _resumeFile == null
+                                ? "Upload Resume (PDF)"
+                                : "Resume: ${path.basename(_resumeFile!.path)}",
+                            style: TextStyle(
+                                fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                            overflow: TextOverflow
+                                .ellipsis, // Ensures long text is truncated
+                            maxLines: 1, // Limits to a single line
+                          ),
+                        ),
                         Icon(Icons.upload_file),
                       ],
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 50),
+
+                // Logout Button
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 12.0.h),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: Color(kDarkBlue.value),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: GestureDetector(
+                    onTap: _logout,
+                    child: Center(
+                      child: Text(
+                        "Logout",
+                        style: TextStyle(
+                            fontSize: 18.0.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
                 ),

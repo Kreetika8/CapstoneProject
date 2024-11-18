@@ -2,9 +2,11 @@
   import 'package:classico/controllers/exports.dart';
   import 'package:classico/views/common/app_style.dart';
   import 'package:classico/views/common/reusable_text.dart';
+
   import 'package:flutter/material.dart';
   import 'package:flutter_vector_icons/flutter_vector_icons.dart';
   import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+
   import 'package:provider/provider.dart';
 
   class DrawerscreenEmployer extends StatefulWidget {
@@ -97,11 +99,12 @@
                   ),
                   drawerItem(
                     AntDesign.heart,
-                    "Posted Jobs",
+                    "Create Work",
                     2,
                     zoomNotifier.currentIndex == 2
                         ? Color(kDark.value)
                         : Color(kLight.value),
+                        
                   ),
                   drawerItem(
                     AntDesign.calendar,
@@ -110,6 +113,7 @@
                     zoomNotifier.currentIndex == 3
                         ? Color(kDark.value)
                         : Color(kLight.value),
+                        
                   ),
                   drawerItem(
                     AntDesign.user,
