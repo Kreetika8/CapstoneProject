@@ -85,11 +85,7 @@ class PageThree extends StatelessWidget {
                     )
                   ],
                 ),
-                const HeightSpacer(size: 30),
-                ReusableText(
-                    text: "Continue as a guest",
-                    style:
-                        appstyle(16, Color(kLightBlue.value), FontWeight.w400))
+                
               ],
             ),
           ],

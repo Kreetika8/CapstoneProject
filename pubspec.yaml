@@ -43,11 +43,13 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/LandingImage.png  # Image for the landing page
-    - assets/images/PageTwo.png       # Image for Page Two
+    - assets/images/LandingImage.png  
+    - assets/images/PageTwo.png      
     - assets/images/PageThree.png 
     - assets/images/user.png 
     - assets/images/profile.png 
-    - assets/icons/menu.svg  # SVG icon for the menu
+    - assets/icons/menu.svg  
     - assets/images/search.jpg
+    - assets/images/HomepageEmployer.png
+
 

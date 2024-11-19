@@ -1,8 +1,13 @@
 import 'package:classico/constants/app_constants.dart';
+import 'package:classico/controllers/jobs_provider.dart';
 import 'package:classico/views/common/app_bar.dart';
 import 'package:classico/views/common/drawer/drawer_widget.dart';
+import 'package:classico/views/ui/employerUI/mywork.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:provider/provider.dart';
 
 class CreateWorkPage extends StatefulWidget {
   const CreateWorkPage({super.key});
@@ -14,15 +19,12 @@ class CreateWorkPage extends StatefulWidget {
 class _CreateWorkPageState extends State<CreateWorkPage> {
   // Controllers for each input field
   final TextEditingController _jobPositionController = TextEditingController();
-  final TextEditingController _workplaceController = TextEditingController();
   final TextEditingController _jobLocationController = TextEditingController();
-  final TextEditingController _contractPeriodController =
-      TextEditingController();
+  final TextEditingController _workplaceController = TextEditingController();
+  final TextEditingController _contractPeriodController = TextEditingController();
+    final TextEditingController _salaryController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _requirementsController = TextEditingController();
-  final TextEditingController _salaryController = TextEditingController();
-  final TextEditingController _totalTimeController =
-      TextEditingController(); // New controller for total time
 
   String _selectedFrequency = "hour"; // Default salary frequency
 
@@ -30,196 +32,195 @@ class _CreateWorkPageState extends State<CreateWorkPage> {
   void dispose() {
     // Dispose controllers to free memory
     _jobPositionController.dispose();
-    _workplaceController.dispose();
     _jobLocationController.dispose();
+    _workplaceController.dispose();
     _contractPeriodController.dispose();
+    _salaryController.dispose();
     _descriptionController.dispose();
     _requirementsController.dispose();
-    _salaryController.dispose();
-    _totalTimeController.dispose(); // Dispose of the new controller
 
     super.dispose();
   }
 
-
   //title
-void _showTitleDialog() {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "Work Title",
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            "Please enter the job title",
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: Color(kDarkGrey.value),
-            ),
-          ),
-        ],
-      ),
-      content: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10.h),
-        child: TextField(
-          controller: _jobPositionController,
-          maxLines: 1, // One line for the title
-          decoration: InputDecoration(
-            hintText: "Enter job title",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-          ),
+  void _showTitleDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
         ),
-      ),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Cancel"),
+            Text(
+              "Work Title",
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
-            SizedBox(width: 10), // Add space between buttons
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_jobPositionController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Please enter the title"),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  } else {
-                    setState(() {
-                      // Save or handle the title here if needed
-                    });
-                    Navigator.pop(context);
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor:  Colors.white, // Set text color to white
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                ),
-                child: const Text("Save"),
+            SizedBox(height: 8.h),
+            Text(
+              "Please enter the job title",
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: Color(kDarkGrey.value),
               ),
             ),
           ],
         ),
-      ],
-    ),
-  );
-}
-
+        content: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          child: TextField(
+            controller: _jobPositionController,
+            maxLines: 1, // One line for the title
+            decoration: InputDecoration(
+              hintText: "Enter job title",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+            ),
+          ),
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+              ),
+              SizedBox(width: 10), // Add space between buttons
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_jobPositionController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Please enter the title"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } else {
+                      setState(() {
+                        // Save or handle the title here if needed
+                      });
+                      Navigator.pop(context);
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, // Set text color to white
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                  ),
+                  child: const Text("Save"),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
 // Location Dialog (using separate controller for location)
-void _showLocationDialog() {
-  TextEditingController _locationController = TextEditingController();
+  void _showLocationDialog() {
+    TextEditingController _locationController = TextEditingController();
 
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "Work Location",
-            style: TextStyle(
-              fontSize: 20.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            "Please enter the work location",
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: Color(kDarkGrey.value),
-            ),
-          ),
-        ],
-      ),
-      content: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10.h),
-        child: TextField(
-          controller: _locationController,
-          maxLines: 1, // One line for the location
-          decoration: InputDecoration(
-            hintText: "Enter location here...",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-          ),
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
         ),
-      ),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensures proper spacing
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Cancel"),
+            Text(
+              "Work Location",
+              style: TextStyle(
+                fontSize: 20.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
-            SizedBox(width: 10), // Add space between buttons
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_locationController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Please enter the location"),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  } else {
-                    setState(() {
-                      // Save the location entered in the controller
-                      _jobLocationController.text = _locationController.text;
-                    });
-                    Navigator.pop(context); // Close the dialog
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white, // Text color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                ),
-                child: const Text("Save"),
+            SizedBox(height: 8.h),
+            Text(
+              "Please enter the work location",
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: Color(kDarkGrey.value),
               ),
             ),
           ],
         ),
-      ],
-    ),
-  );
-}
-
+        content: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          child: TextField(
+            controller: _locationController,
+            maxLines: 1, // One line for the location
+            decoration: InputDecoration(
+              hintText: "Enter location here...",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+            ),
+          ),
+        ),
+        actions: [
+          Row(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceBetween, // Ensures proper spacing
+            children: [
+              Expanded(
+                child: TextButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text("Cancel"),
+                ),
+              ),
+              SizedBox(width: 10), // Add space between buttons
+              Expanded(
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_locationController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Please enter the location"),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    } else {
+                      setState(() {
+                        // Save the location entered in the controller
+                        _jobLocationController.text = _locationController.text;
+                      });
+                      Navigator.pop(context); // Close the dialog
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, // Text color
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                  ),
+                  child: const Text("Save"),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
 
   //workplace
   void _showWorkplaceDialog() {
@@ -554,86 +555,90 @@ void _showLocationDialog() {
   }
 
 //requirements
-void _showRequirementDialog() {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.r),
-      ),
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            "Requirements",
-            style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-          ),
-          SizedBox(height: 10.h),
-          Text(
-            "Write the requirements for your work",
-            style: TextStyle(
-              fontSize: 14.sp,
-              color: Color(kDarkGrey.value),
-            ),
-          ),
-        ],
-      ),
-      content: Padding(
-        padding: EdgeInsets.symmetric(vertical: 10.h),
-        child: TextField(
-          controller: _requirementsController, // Use the correct controller
-          maxLines: 5, // Allow for a large text input area
-          decoration: InputDecoration(
-            hintText: "Enter the requirements here...",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-          ),
+  void _showRequirementDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
         ),
-      ),
-      actions: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensures proper spacing
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Expanded(
-              child: TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text("Cancel"),
+            Text(
+              "Requirements",
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
             ),
-            SizedBox(width: 10), // Space between buttons
-            Expanded(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_requirementsController.text.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Please enter requirements"),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                  } else {
-                    setState(() {
-                      // Optionally handle the requirements here
-                    });
-                    Navigator.pop(context);
-                  }
-                },
-                child: const Text("Save"),
+            SizedBox(height: 10.h),
+            Text(
+              "Write the requirements for your work",
+              style: TextStyle(
+                fontSize: 14.sp,
+                color: Color(kDarkGrey.value),
               ),
             ),
           ],
         ),
-      ],
-    ),
-  );
-}
-
+        content: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.h),
+          child: TextField(
+            controller: _requirementsController, // Use the correct controller
+            maxLines: 5, // Allow for a large text input area
+            decoration: InputDecoration(
+              hintText: "Enter the requirements here...",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.r),
+              ),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
+            ),
+          ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: 10.w), // Add padding to prevent overflow
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("Cancel"),
+                  ),
+                ),
+                SizedBox(width: 10), // Space between buttons
+                Flexible(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_requirementsController.text.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text("Please enter requirements"),
+                            backgroundColor: Colors.red,
+                          ),
+                        );
+                      } else {
+                        setState(() {
+                          // Optionally handle the requirements here
+                        });
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text("Save"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   //description
   void _showDescriptionDialog() {
@@ -720,33 +725,54 @@ void _showRequirementDialog() {
     );
   }
 
-  void _validateAndPost() {
-    // Check if all fields are filled
-    if (_jobPositionController.text.isEmpty ||
-        _workplaceController.text.isEmpty ||
-        _jobLocationController.text.isEmpty ||
-        _contractPeriodController.text.isEmpty ||
-        _descriptionController.text.isEmpty ||
-        _requirementsController.text.isEmpty ||
-        _salaryController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please fill all the details"),
-          backgroundColor: Colors.red,
-        ),
-      );
-    } else {
-      // Proceed with form submission
-      print("Job Position: ${_jobPositionController.text}");
-      print("Type of Workplace: ${_workplaceController.text}");
-      print("Job Location: ${_jobLocationController.text}");
-      print("Contract Period: ${_contractPeriodController.text}");
-      print("Description: ${_descriptionController.text}");
-      print("Requirements: ${_requirementsController.text}");
-      print("Salary: ${_salaryController.text}");
-      print("Total Time: ${_totalTimeController.text}"); // Print total time
-    }
+ void _validateAndPost() {
+  // Print the values of the controllers to debug
+  print("Job Position: ${_jobPositionController.text.trim()}");
+  print("Workplace: ${_workplaceController.text.trim()}");
+  print("Job Location: ${_jobLocationController.text.trim()}");
+  print("Contract Period: ${_contractPeriodController.text.trim()}");
+  print("Description: ${_descriptionController.text.trim()}");
+  print("Requirements: ${_requirementsController.text.trim()}");
+  print("Salary: ${_salaryController.text.trim()}");
+
+  if (_jobPositionController.text.trim().isEmpty ||
+      _workplaceController.text.trim().isEmpty ||
+      _jobLocationController.text.trim().isEmpty ||
+      _contractPeriodController.text.trim().isEmpty ||
+      _descriptionController.text.trim().isEmpty ||
+      _requirementsController.text.trim().isEmpty ||
+      _salaryController.text.trim().isEmpty 
+      ) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Please fill all the details"),
+        backgroundColor: Colors.red,
+      ),
+    );
+  } else {
+    final newJob = {
+      'title': _jobPositionController.text.trim(),
+      'location': _jobLocationController.text.trim(),
+      'workplace': _workplaceController.text.trim(),
+      'contractPeriod': _contractPeriodController.text.trim(),
+      'salary': _salaryController.text.trim(),
+      'requirements': _requirementsController.text.trim(),
+      'description': _descriptionController.text.trim(),
+
+    };
+
+    final jobProvider = Provider.of<JobsNotifier>(context, listen: false);
+    jobProvider.addJob(newJob); // Add job to the provider
+
+
+    // Or use Navigator.pushReplacement if not using GetX:
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const MyWorkPage()),
+    );
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -866,12 +892,17 @@ void _showRequirementDialog() {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  controller.text.isEmpty ? label : controller.text,
-                  style: TextStyle(
-                    fontSize: 16.sp,
-                    color:
-                        controller.text.isEmpty ? Colors.black : Colors.black87,
+                Flexible(
+                  // Wrap the Text widget with Flexible
+                  child: Text(
+                    controller.text.isEmpty ? label : controller.text,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      color: controller.text.isEmpty
+                          ? Colors.black
+                          : Colors.black87,
+                    ),
+                    overflow: TextOverflow.ellipsis, // Handle overflow
                   ),
                 ),
                 Icon(

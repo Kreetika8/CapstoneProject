@@ -91,14 +91,14 @@
                   ),
                   drawerItem(
                     Ionicons.chatbubble_outline,
-                    "Chat",
+                    "Applications",
                     1,
                     zoomNotifier.currentIndex == 1
                         ? Color(kDark.value)
                         : Color(kLight.value),
                   ),
                   drawerItem(
-                    AntDesign.heart,
+                    AntDesign.pluscircleo,
                     "Create Work",
                     2,
                     zoomNotifier.currentIndex == 2
@@ -108,7 +108,7 @@
                   ),
                   drawerItem(
                     AntDesign.calendar,
-                    "Applications",
+                    "My Work",
                     3,
                     zoomNotifier.currentIndex == 3
                         ? Color(kDark.value)

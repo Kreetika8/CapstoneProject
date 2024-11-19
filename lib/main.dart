@@ -1,15 +1,20 @@
-  import 'package:classico/views/ui/authent/profile.dart';
-import 'package:classico/views/ui/onboarding/widgets/page_one.dart';
-  import 'package:classico/views/ui/search/homepage.dart';
-  import 'package:flutter/material.dart';
-  import 'package:provider/provider.dart';
-  import 'package:flutter_screenutil/flutter_screenutil.dart';
-  import 'package:get/get.dart';
+import 'package:classico/views/ui/employerUI/creatework.dart';
+import 'package:classico/views/ui/employerUI/mywork.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
-  import 'constants/app_constants.dart';
-  import 'controllers/exports.dart';
-  import 'views/ui/onboarding/onboarding_screen.dart';
-  import 'views/common/exports.dart';
+import 'constants/app_constants.dart';
+import 'views/ui/onboarding/widgets/page_one.dart';
+import 'views/ui/search/homepage.dart';
+import 'views/ui/authent/profile.dart';
+import 'views/ui/onboarding/onboarding_screen.dart';
+import 'views/common/exports.dart';
+
+import 'controllers/exports.dart';
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -46,12 +51,14 @@ class MyApp extends StatelessWidget {
             iconTheme: IconThemeData(color: Color(kDark.value)),
             primarySwatch: Colors.grey,
           ),
-          initialRoute: '/onboarding', // Set the homepage as the initial route
+          initialRoute: '/onboarding',
           getPages: [
             GetPage(name: '/onboarding', page: () => const OnboardingScreen()),
             GetPage(name: '/homepage', page: () => const Homepage()),
             GetPage(name: '/profile', page: () => const ProfilePage()),
             GetPage(name: '/pageone', page: () => const PageOne()),
+            GetPage(name: '/creatework', page: () => const CreateWorkPage()), 
+            GetPage(name: '/mywork', page: () => const MyWorkPage()), 
           ],
         );
       },

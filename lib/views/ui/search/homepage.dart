@@ -46,23 +46,23 @@ class _HomePageState extends State<Homepage> {
           ),
         ),
       ),
-      
+
       // Main body content
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            padding: EdgeInsets.symmetric(horizontal: 20.w), // Responsive horizontal padding
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const HeightSpacer(size: 10),
-                
+
                 // Main heading of the homepage
                 Text(
                   "Search \nFind & Apply",
-                  style: appstyle(40, Color(kDark.value), FontWeight.bold),
+                  style: appstyle(40.sp, Color(kDark.value), FontWeight.bold),
                 ),
-                
+
                 const HeightSpacer(size: 40),
 
                 // Search widget for job search
@@ -72,9 +72,9 @@ class _HomePageState extends State<Homepage> {
                     Get.to(() => const SearchPage());
                   },
                 ),
-                
+
                 const HeightSpacer(size: 30),
-                
+
                 // Heading for Popular Works section
                 HeadingWidget(
                   text: "Popular Works",
@@ -82,9 +82,9 @@ class _HomePageState extends State<Homepage> {
                     // Additional navigation or action if needed
                   },
                 ),
-                
+
                 const HeightSpacer(size: 15),
-                
+
                 // Horizontal list of popular job categories
                 SizedBox(
                   height: height * 0.28, // Adjust height as necessary
@@ -101,9 +101,9 @@ class _HomePageState extends State<Homepage> {
                     },
                   ),
                 ),
-                
+
                 const HeightSpacer(size: 20),
-                
+
                 // Heading for Recently Posted Jobs section
                 HeadingWidget(
                   text: "Recently Posted",
@@ -111,9 +111,9 @@ class _HomePageState extends State<Homepage> {
                     // Additional navigation or action if needed
                   },
                 ),
-                
+
                 const HeightSpacer(size: 20),
-                
+
                 // Vertical list of job postings
                 VerticalTile()
               ],
@@ -121,7 +121,7 @@ class _HomePageState extends State<Homepage> {
           ),
         ),
       ),
-      
+
       // Adding drawer to the scaffold
       drawer: const DrawerWidget(),
     );
