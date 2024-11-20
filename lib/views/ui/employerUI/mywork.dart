@@ -38,7 +38,7 @@ class MyWorkPage extends StatelessWidget {
                   ),
                   SizedBox(height: 20.h),
                   Text(
-                    "You do not have created a work",
+                    "You have not created any work",
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.bold,
@@ -49,67 +49,71 @@ class MyWorkPage extends StatelessWidget {
                 ],
               ),
             )
-          : ListView.builder(
-              itemCount: jobProvider.jobs.length,
-              itemBuilder: (context, index) {
-                final job = jobProvider.jobs[index];
-                return Card(
-                  margin: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
-                  elevation: 8,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16.r),
-                  ),
-                  shadowColor: Colors.black.withOpacity(0.1),
-                  child: ListTile(
-                    contentPadding: EdgeInsets.all(16.h),
-                    title: Text(
-                      job['title'] ?? '',
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Color(kDark.value),
-                      ),
+          : Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+              child: ListView.builder(
+                itemCount: jobProvider.jobs.length,
+                itemBuilder: (context, index) {
+                  final job = jobProvider.jobs[index];
+                  return Card(
+                    margin: EdgeInsets.only(bottom: 12.h),
+                    elevation: 6,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
-                    subtitle: Text(
-                      "${job['location']} | ${job['workplace']}",
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: Color(kDarkBlue.value),
-                      ),
-                    ),
-                    trailing: Text(
-                      "₹${job['salary']}",
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Color(kOrange.value),
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => JobDetailPage(
-                            job: job,
-                            onDelete: () {
-                              // Delete the job when the delete button is pressed
-                              jobProvider.deleteJob(job);
-
-                              // Show a snackbar for confirmation
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Job '${job['title']}' deleted!")),
-                              );
-
-                              // Navigate back to MyWorkPage
-                              Navigator.pop(context);
-                            },
-                          ),
+                    shadowColor: Colors.black.withOpacity(0.1),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 16.w, vertical: 12.h),
+                      title: Text(
+                        job['title'] ?? '',
+                        style: TextStyle(
+                          fontSize: 18.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Color(kDark.value),
                         ),
-                      );
-                    },
-                  ),
-                );
-              },
+                      ),
+                      subtitle: Text(
+                        "${job['location']} | ${job['workplace']}",
+                        style: TextStyle(
+                          fontSize: 14.sp,
+                          color: Colors.grey.shade700,
+                        ),
+                      ),
+                      trailing: Text(
+                        "₹${job['salary']}",
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Color(kOrange.value),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => JobDetailPage(
+                              job: job,
+                              onDelete: () {
+                                jobProvider.deleteJob(job);
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        "Job '${job['title']}' deleted!"),
+                                  ),
+                                );
+
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
     );
   }

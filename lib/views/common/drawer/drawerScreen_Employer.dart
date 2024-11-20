@@ -89,19 +89,12 @@
                         ? Color(kDark.value)
                         : Color(kLight.value),
                   ),
-                  drawerItem(
-                    Ionicons.chatbubble_outline,
-                    "Applications",
-                    1,
-                    zoomNotifier.currentIndex == 1
-                        ? Color(kDark.value)
-                        : Color(kLight.value),
-                  ),
+                  
                   drawerItem(
                     AntDesign.pluscircleo,
                     "Create Work",
-                    2,
-                    zoomNotifier.currentIndex == 2
+                    1,
+                    zoomNotifier.currentIndex == 1
                         ? Color(kDark.value)
                         : Color(kLight.value),
                         
@@ -109,8 +102,8 @@
                   drawerItem(
                     AntDesign.calendar,
                     "My Work",
-                    3,
-                    zoomNotifier.currentIndex == 3
+                    2,
+                    zoomNotifier.currentIndex == 2
                         ? Color(kDark.value)
                         : Color(kLight.value),
                         
@@ -118,8 +111,8 @@
                   drawerItem(
                     AntDesign.user,
                     "Profile",
-                    4,
-                    zoomNotifier.currentIndex == 4
+                    3,
+                    zoomNotifier.currentIndex == 3
                         ? Color(kDark.value)
                         : Color(kLight.value),
                   ),

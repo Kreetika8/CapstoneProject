@@ -3,7 +3,7 @@ import 'package:classico/views/common/app_style.dart';
 import 'package:classico/views/common/drawer/drawerScreen_Employer.dart';
 import 'package:classico/views/common/reusable_text.dart';
 import 'package:classico/views/common/width_spacer.dart';
-import 'package:classico/views/ui/chat/chatpage.dart';
+import 'package:classico/views/ui/employerUI/applications_received.dart';
 import 'package:classico/views/ui/employerUI/creatework.dart';
 import 'package:classico/views/ui/employerUI/mywork.dart';
 import 'package:classico/views/ui/employerUI/profile_employer.dart';
@@ -52,12 +52,10 @@ class _MainScreenState extends State<MainscreenEmployer> {
       case 0:
         return const HomepageEmployer();
       case 1:
-        return const ChatsPage();
-      case 2:
         return const CreateWorkPage();
-      case 3:
+      case 2:
         return const MyWorkPage();
-      case 4:
+      case 3:
         return const ProfilePageEmployer();
       default:
         return const Homepage();

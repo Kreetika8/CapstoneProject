@@ -95,7 +95,7 @@ class _HomePageState extends State<Homepage> {
                       return JobHorizontalTile(
                         onTap: () {
                           // Navigate to the job details page
-                          Get.to(() => const JobPage(title: 'Facebook', id: '12'));
+                          Get.to(() =>  JobPage(title: 'Facebook', id: '12', location: '', contractPeriod: '', salary: '', requirements: [], description: '', employerEmail: '',));
                         },
                       );
                     },

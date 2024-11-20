@@ -1,202 +1,184 @@
 import 'package:classico/constants/app_constants.dart';
-import 'package:classico/views/common/app_bar.dart';
-import 'package:classico/views/common/app_style.dart';
-import 'package:classico/views/common/custom_outline_btn.dart';
-import 'package:classico/views/common/height_spacer.dart';
-import 'package:classico/views/common/reusable_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_vector_icons/flutter_vector_icons.dart';
-import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-class JobPage extends StatefulWidget {
-  const JobPage({super.key, required this.title, required this.id});
 
+import 'package:url_launcher/url_launcher.dart'; // Import url_launcher package
+
+class JobPage extends StatelessWidget {
   final String title;
   final String id;
+  final String location;
+  final String contractPeriod;
+  final String salary;
+  final List<String> requirements;
+  final String description;
+  final String employerEmail; // Added employerEmail field
 
-  @override
-  State<JobPage> createState() => _JobPageState();
-}
+  JobPage({
+    super.key,
+    required this.id,
+    required this.title,
+    required this.location,
+    required this.contractPeriod,
+    required this.salary,
+    required this.requirements,
+    required this.description,
+    required this.employerEmail, // Accept employer email
+  });
 
-class _JobPageState extends State<JobPage> {
+  // Function to launch the email client
+  Future<void> _launchEmail(String email) async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: email,
+      query: Uri.encodeFull('Subject=Job Application for $title'), // Optional subject
+    );
+    if (await canLaunch(emailUri.toString())) {
+      await launch(emailUri.toString());
+    } else {
+      throw 'Could not launch email client';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50.h),
-        child: CustomAppBar(
-          text: widget.title,
-          actions: const [
-            Padding(
-              padding: EdgeInsets.only(right: 12.0),
-              child: Icon(Entypo.heart_outlined),
-            ),
-          ],
-          child: GestureDetector(
-            onTap: () => Get.back(),
-            child: const Icon(CupertinoIcons.arrow_left),
-          ),
-        ),
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: Color(kOrange.value),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Stack(
+        padding: EdgeInsets.all(16.w),
+        child: ListView(
           children: [
-            ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                const HeightSpacer(size: 30),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.27,
-                  color: Color(kLightGrey.value),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const CircleAvatar(
-                        backgroundImage: AssetImage("assets/images/user.png"),
-                      ),
-                      const HeightSpacer(size: 10),
-                      ReusableText(
-                        text: "Flutter Developer",
-                        style:
-                            appstyle(22, Color(kDark.value), FontWeight.w600),
-                      ),
-                      const HeightSpacer(size: 5),
-                      ReusableText(
-                        text: "Kathmandu",
-                        style: appstyle(
-                            16, Color(kDarkGrey.value), FontWeight.normal),
-                      ),
-                      const HeightSpacer(size: 15),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 50.w),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomOutlineBtn(
-                                width: width * 0.26,
-                                height: height * 0.04,
-                                color2: Color(kLight.value),
-                                text: "Full time",
-                                color: Color(kOrange.value)),
-                            Row(
-                              children: [
-                                ReusableText(
-                                    text: "10k",
-                                    style: appstyle(22, Color(kDark.value),
-                                        FontWeight.w600)),
-                                SizedBox(
-                                  width: width * 0.2,
-                                  child: ReusableText(
-                                      text: "/monthly",
-                                      style: appstyle(22, Color(kDark.value),
-                                          FontWeight.w600)),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+            // Centered Job Title
+            Center(
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontSize: 28.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+            ),
+            SizedBox(height: 12.h),
+
+            // Location Section with Icon
+            Card(
+              elevation: 5,
+              margin: EdgeInsets.only(bottom: 12.h),
+              child: ListTile(
+                leading: Icon(Icons.location_on, color: Color(kDarkBlue.value)),
+                title: Text(
+                  "Location: $location",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Color(kDark.value),
                   ),
                 ),
-                const HeightSpacer(size: 20),
-
-                // Email Section
-                ReusableText(
-                  text: "Email us at:",
-                  style: appstyle(22, Color(kDark.value), FontWeight.w600),
-                ),
-                const HeightSpacer(size: 10),
-                GestureDetector(
-                  onTap: () async {
-                    final Uri emailLaunchUri = Uri(
-                      scheme: 'mailto',
-                      path: 'support@classico.com',
-                      query:
-                          'subject=Work Inquiry&body=Hello, I am interested in the work.',
-                    );
-                    if (await canLaunchUrl(emailLaunchUri)) {
-                      await launchUrl(emailLaunchUri);
-                    } else {
-                      print('Could not launch email client');
-                    }
-                  },
-                  child: Text(
-                    "support@classico.com",
-                    style: appstyle(16, Color(kOrange.value), FontWeight.w600),
-                  ),
-                ),
-                const HeightSpacer(size: 20),
-
-                // Job Description Section
-                ReusableText(
-                    text: "Job Description",
-                    style: appstyle(22, Color(kDark.value), FontWeight.w600)),
-                const HeightSpacer(size: 10),
-                Text(
-                  desc,
-                  textAlign: TextAlign.justify,
-                  maxLines: 8,
-                  style:
-                      appstyle(16, Color(kDarkGrey.value), FontWeight.normal),
-                ),
-                const HeightSpacer(size: 30),
-
-                // Requirements Section
-                ReusableText(
-                    text: "Requirements",
-                    style: appstyle(22, Color(kDark.value), FontWeight.w600)),
-                const HeightSpacer(size: 10),
-                SizedBox(
-                  height: height * 0.6,
-                  child: ListView.builder(
-                      itemCount: requirements.length,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        final req = requirements[index];
-                        String bullet = "\u2022";
-                        return Text(
-                          "$bullet $req\n",
-                          maxLines: 4,
-                          textAlign: TextAlign.justify,
-                          style: appstyle(
-                              16, Color(kDarkGrey.value), FontWeight.normal),
-                        );
-                      }),
-                ),
-                const HeightSpacer(size: 20),
-              ],
+              ),
             ),
 
-            // Bottom Button
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.only(bottom: 20.h),
-                child: CustomOutlineBtn(
-                  color2: Color(kOrange.value),
-                  width: width,
-                  height: height * 0.06,
-                  text: "Connect Now",
-                  color: Color(kLight.value),
-                  onTap: () async {
-                    final Uri emailLaunchUri = Uri(
-                      scheme: 'mailto',
-                      path: 'support@classico.com',
-                      query:
-                          'subject=Work Inquiry&body=Hello, I am interested in connecting for this work.',
-                    );
-                    if (await canLaunchUrl(emailLaunchUri)) {
-                      await launchUrl(emailLaunchUri);
-                    } else {
-                      print('Could not launch email client');
-                    }
-                  },
+            // Contract Period Section with Icon
+            Card(
+              elevation: 5,
+              margin: EdgeInsets.only(bottom: 12.h),
+              child: ListTile(
+                leading: Icon(Icons.access_time, color: Color(kDarkBlue.value)),
+                title: Text(
+                  "Contract Period: $contractPeriod",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Color(kDark.value),
+                  ),
+                ),
+              ),
+            ),
+
+            // Salary Section with Icon
+            Card(
+              elevation: 5,
+              margin: EdgeInsets.only(bottom: 12.h),
+              child: ListTile(
+                leading: Icon(Icons.monetization_on, color: Color(kDarkBlue.value)),
+                title: Text(
+                  "Salary: $salary",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Color(kDark.value),
+                  ),
+                ),
+              ),
+            ),
+
+            // Job Requirements heading
+            Text(
+              "Job Requirements:",
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(height: 8.h),
+
+            // Job Requirements list
+            for (var requirement in requirements)
+              Padding(
+                padding: EdgeInsets.only(bottom: 4.h),
+                child: Text(
+                  "- $requirement",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Color(kDark.value),
+                  ),
+                ),
+              ),
+            SizedBox(height: 26.h),
+
+            // Job Description heading
+            Text(
+              "Job Description:",
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+            SizedBox(height: 8.h),
+
+            // Job Description
+            Text(
+              description,
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: Colors.grey.shade600,
+              ),
+            ),
+            SizedBox(height: 24.h),
+
+            // Apply Button with Enhanced Styling
+            ElevatedButton(
+              onPressed: () {
+                _launchEmail(employerEmail); // Pass the employer's email here
+              },
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(vertical: 14.h),
+                backgroundColor: Color(kOrange.value),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.r),
+                ),
+                shadowColor: Color(kDarkBlue.value),
+                elevation: 5,
+              ),
+              child: Text(
+                'Apply for Job',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Color(kDark.value),
                 ),
               ),
             ),

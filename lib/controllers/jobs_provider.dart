@@ -5,6 +5,8 @@ class JobsNotifier extends ChangeNotifier {
 
   List<Map<String, dynamic>> get jobs => _jobs;
 
+  get appliedJobs => null;
+
   // Add a job to the list
   void addJob(Map<String, dynamic> job) {
     _jobs.add(job);

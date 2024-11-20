@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ApplicationsPage extends StatelessWidget {
-  const ApplicationsPage({super.key});
+  const ApplicationsPage({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +13,12 @@ class ApplicationsPage extends StatelessWidget {
         preferredSize: Size.fromHeight(50.h),
         child: CustomAppBar(
           text: "Applications",
-          
           child: Padding(
             padding: EdgeInsets.all(12.0.h),
             child: const DrawerWidget(),
           ),
         ),
       ),
-    );;
+    );
   }
 }

@@ -8,6 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 class CreateWorkPage extends StatefulWidget {
   const CreateWorkPage({super.key});
@@ -22,7 +23,7 @@ class _CreateWorkPageState extends State<CreateWorkPage> {
   final TextEditingController _jobLocationController = TextEditingController();
   final TextEditingController _workplaceController = TextEditingController();
   final TextEditingController _contractPeriodController = TextEditingController();
-    final TextEditingController _salaryController = TextEditingController();
+  final TextEditingController _salaryController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _requirementsController = TextEditingController();
 
@@ -735,14 +736,14 @@ class _CreateWorkPageState extends State<CreateWorkPage> {
   print("Requirements: ${_requirementsController.text.trim()}");
   print("Salary: ${_salaryController.text.trim()}");
 
+  // Validate if all fields are filled
   if (_jobPositionController.text.trim().isEmpty ||
       _workplaceController.text.trim().isEmpty ||
       _jobLocationController.text.trim().isEmpty ||
       _contractPeriodController.text.trim().isEmpty ||
       _descriptionController.text.trim().isEmpty ||
       _requirementsController.text.trim().isEmpty ||
-      _salaryController.text.trim().isEmpty 
-      ) {
+      _salaryController.text.trim().isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text("Please fill all the details"),
@@ -750,7 +751,12 @@ class _CreateWorkPageState extends State<CreateWorkPage> {
       ),
     );
   } else {
+    // Generate a unique ID using the uuid package
+    final String uniqueId = Uuid().v4();
+
+    // Create the job object with the unique ID
     final newJob = {
+      'id': uniqueId,  // Add the unique ID here
       'title': _jobPositionController.text.trim(),
       'location': _jobLocationController.text.trim(),
       'workplace': _workplaceController.text.trim(),
@@ -758,14 +764,13 @@ class _CreateWorkPageState extends State<CreateWorkPage> {
       'salary': _salaryController.text.trim(),
       'requirements': _requirementsController.text.trim(),
       'description': _descriptionController.text.trim(),
-
     };
 
+    // Adding the new job to the provider
     final jobProvider = Provider.of<JobsNotifier>(context, listen: false);
     jobProvider.addJob(newJob); // Add job to the provider
 
-
-    // Or use Navigator.pushReplacement if not using GetX:
+    // Navigate to another page (MyWorkPage) after posting the job
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const MyWorkPage()),

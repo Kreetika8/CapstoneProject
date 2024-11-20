@@ -12,6 +12,8 @@ dependencies:
   permission_handler: ^10.0.0
   email_validator: ^2.0.1  # Add this line
   url_launcher: ^6.1.7
+  uuid: ^3.0.4  # Check for the latest version on pub.dev
+
 
 
   flutter:

@@ -1,3 +1,6 @@
+import 'package:classico/controllers/profileprovider_worker.dart';
+import 'package:classico/views/ui/authent/worker_profile.dart';
+
 import 'package:classico/views/ui/employerUI/creatework.dart';
 import 'package:classico/views/ui/employerUI/mywork.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +11,9 @@ import 'package:get/get.dart';
 import 'constants/app_constants.dart';
 import 'views/ui/onboarding/widgets/page_one.dart';
 import 'views/ui/search/homepage.dart';
-import 'views/ui/authent/profile.dart';
 import 'views/ui/onboarding/onboarding_screen.dart';
-import 'views/common/exports.dart';
 
 import 'controllers/exports.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +26,11 @@ void main() async {
         ChangeNotifierProvider(create: (context) => ZoomNotifier()),
         ChangeNotifierProvider(create: (context) => SignUpNotifier()),
         ChangeNotifierProvider(create: (context) => JobsNotifier()),
+        ChangeNotifierProvider(create: (context) => ProfileNotifierEmployer()), // Add ProfileNotifierEmployer here
+        ChangeNotifierProvider(create: (context) => ProfileNotifierWorker()), // Add ProfileNotifierEmployer here
+
+        
+        
       ],
       child: const MyApp(),
     ),
@@ -55,7 +60,7 @@ class MyApp extends StatelessWidget {
           getPages: [
             GetPage(name: '/onboarding', page: () => const OnboardingScreen()),
             GetPage(name: '/homepage', page: () => const Homepage()),
-            GetPage(name: '/profile', page: () => const ProfilePage()),
+            GetPage(name: '/profile', page: () => const WorkerProfilePage()),
             GetPage(name: '/pageone', page: () => const PageOne()),
             GetPage(name: '/creatework', page: () => const CreateWorkPage()), 
             GetPage(name: '/mywork', page: () => const MyWorkPage()), 

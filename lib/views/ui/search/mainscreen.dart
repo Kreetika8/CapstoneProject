@@ -4,9 +4,8 @@ import 'package:classico/views/common/drawer/drawerScreen.dart';
 import 'package:classico/views/common/reusable_text.dart';
 import 'package:classico/views/common/width_spacer.dart';
 import 'package:classico/views/ui/applications/applications.dart';
-import 'package:classico/views/ui/authent/profile.dart';
-import 'package:classico/views/ui/chat/chatpage.dart';
-import 'package:classico/views/ui/likes/likes.dart';
+import 'package:classico/views/ui/authent/worker_profile.dart';
+import 'package:classico/views/ui/chat/explore.dart';
 import 'package:classico/views/ui/search/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,14 +49,9 @@ class _MainScreenState extends State<MainScreen> {
         return const Homepage();
 
       case 1:
-        return const ChatsPage();
+        return const ExplorePage();
       case 2:
-
-        return const LikesPage();
-      case 3:
-        return const ApplicationsPage();
-      case 4:
-        return const ProfilePage();
+        return const WorkerProfilePage();
 
       default:
         return const Homepage();

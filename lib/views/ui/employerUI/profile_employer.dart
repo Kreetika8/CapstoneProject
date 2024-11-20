@@ -1,13 +1,15 @@
 import 'package:classico/constants/app_constants.dart';
+import 'package:classico/controllers/profileprovider_employer.dart';
 import 'package:classico/views/common/app_bar.dart';
 import 'package:classico/views/common/drawer/drawer_widget.dart';
 import 'package:classico/views/ui/onboarding/widgets/page_three.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:image_picker/image_picker.dart'; // Import image_picker
-import 'dart:io'; // For handling file paths
-import 'package:flutter/services.dart'; // For handling input format validation
-import 'package:email_validator/email_validator.dart'; // Import email_validator
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:flutter/services.dart';
+import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePageEmployer extends StatefulWidget {
   const ProfilePageEmployer({super.key});
@@ -17,56 +19,49 @@ class ProfilePageEmployer extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePageEmployer> {
-  TextEditingController nameController = TextEditingController();
+  TextEditingController nameController = TextEditingController(); 
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController companyController = TextEditingController();
 
-  File? _profileImage; // Store the selected image
-
-  // Create an instance of ImagePicker
   final ImagePicker _picker = ImagePicker();
 
-  // Method to pick an image from the gallery or camera
+  @override
+  void initState() {
+    super.initState();
+    // Load existing profile data when the page is initialized
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final profileNotifier = Provider.of<ProfileNotifierEmployer>(context, listen: false);
+      nameController.text = profileNotifier.name;
+      emailController.text = profileNotifier.email;
+      phoneController.text = profileNotifier.phone;
+      companyController.text = profileNotifier.company;
+    });
+  }
+
   Future<void> _pickImage() async {
-    final XFile? pickedFile = await _picker.pickImage(
-      source: ImageSource
-          .gallery, // You can change this to ImageSource.camera for camera
-    );
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
-        _profileImage = File(pickedFile.path); // Store the image in the state
+        Provider.of<ProfileNotifierEmployer>(context, listen: false)
+            .updateProfileImage(File(pickedFile.path));
       });
     }
   }
 
-  // Method to show error messages
-  void _showError(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
-
-  // Edit Phone Method
   void _editPhone() {
     showDialog(
       context: context,
       builder: (context) {
-        TextEditingController controller =
-            TextEditingController(text: phoneController.text);
+        TextEditingController controller = TextEditingController(text: phoneController.text);
         return AlertDialog(
           title: const Text("Edit Phone Number"),
           content: TextField(
             controller: controller,
             decoration: const InputDecoration(labelText: "Phone Number"),
             keyboardType: TextInputType.phone,
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly
-            ], // Allow only digits
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           ),
           actions: [
             TextButton(
@@ -75,7 +70,9 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
                   _showError("Please enter a valid 10-digit phone number.");
                 } else {
                   setState(() {
-                    phoneController.text = controller.text;
+                                       phoneController.text = controller.text;
+                    Provider.of<ProfileNotifierEmployer>(context, listen: false)
+                        .updatePhone(controller.text);
                   });
                   Navigator.of(context).pop();
                 }
@@ -88,13 +85,11 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
     );
   }
 
-  // Edit Email Method
   void _editEmail() {
     showDialog(
       context: context,
       builder: (context) {
-        TextEditingController controller =
-            TextEditingController(text: emailController.text);
+        TextEditingController controller = TextEditingController(text: emailController.text);
         return AlertDialog(
           title: const Text("Edit Email"),
           content: TextField(
@@ -110,6 +105,8 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
                 } else {
                   setState(() {
                     emailController.text = controller.text;
+                    Provider.of<ProfileNotifierEmployer>(context, listen: false)
+                        .updateEmail(controller.text);
                   });
                   Navigator.of(context).pop();
                 }
@@ -122,13 +119,11 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
     );
   }
 
-  // Edit Name Method
   void _editName() {
     showDialog(
       context: context,
       builder: (context) {
-        TextEditingController controller =
-            TextEditingController(text: nameController.text);
+        TextEditingController controller = TextEditingController(text: nameController.text);
         return AlertDialog(
           title: const Text("Edit Name"),
           content: TextField(
@@ -140,6 +135,8 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
               onPressed: () {
                 setState(() {
                   nameController.text = controller.text;
+                  Provider.of<ProfileNotifierEmployer>(context, listen: false)
+                      .updateName(controller.text);
                 });
                 Navigator.of(context).pop();
               },
@@ -151,13 +148,11 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
     );
   }
 
-  // Edit Company Method
   void _editCompany() {
     showDialog(
       context: context,
       builder: (context) {
-        TextEditingController controller =
-            TextEditingController(text: companyController.text);
+        TextEditingController controller = TextEditingController(text: companyController.text);
         return AlertDialog(
           title: const Text("Edit Company Name"),
           content: TextField(
@@ -169,6 +164,8 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
               onPressed: () {
                 setState(() {
                   companyController.text = controller.text;
+                  Provider.of<ProfileNotifierEmployer>(context, listen: false)
+                      .updateCompany(controller.text);
                 });
                 Navigator.of(context).pop();
               },
@@ -180,9 +177,7 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
     );
   }
 
-// In your logout method:
   void _logout() {
-    // Show confirmation dialog
     showDialog(
       context: context,
       builder: (context) {
@@ -192,19 +187,16 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
           actions: [
             TextButton(
               onPressed: () {
-                // Navigate to PageThree and remove the current screen from the stack
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          const PageThree()), // PageThree is your target page
+                  MaterialPageRoute(builder: (context) => const PageThree()),
                 );
               },
               child: const Text("Yes"),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog without logout
+                Navigator.of(context).pop();
               },
               child: const Text("No"),
             ),
@@ -216,6 +208,8 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
 
   @override
   Widget build(BuildContext context) {
+    final profileNotifier = Provider.of<ProfileNotifierEmployer>(context);
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(50.h),
@@ -240,21 +234,19 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
-                    onTap: _pickImage, // Trigger image picker on tap
+                    onTap: _pickImage,
                     child: ClipOval(
                       child: SizedBox(
-                        width: 120.0, // Set the width for the circular image
-                        height: 120.0, // Set the height for the circular image
-                        child: _profileImage == null
+                        width: 120.0,
+                        height: 120.0,
+                        child: profileNotifier.profileImage == null
                             ? Image.asset(
                                 'assets/images/user.png', // Default image
-                                fit: BoxFit
-                                    .cover, // Ensure the image covers the circle
+                                fit: BoxFit.cover,
                               )
                             : Image.file(
-                                _profileImage!, // Display selected image
-                                fit: BoxFit
-                                    .cover, // Ensure the image covers the circle
+                                profileNotifier.profileImage!,
+                                fit: BoxFit.cover,
                               ),
                       ),
                     ),
@@ -263,7 +255,6 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
               ),
             ),
           ),
-
           // Editable Information Section
           Padding(
             padding: EdgeInsets.all(20.0.h),
@@ -271,8 +262,7 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
               children: [
                 // Editable Name Box
                 Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 15.0.w, vertical: 12.0.h),
+                  padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 12.0.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.white,
@@ -290,9 +280,8 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Name: ${nameController.text}",
-                          style: TextStyle(
-                              fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                          "Name: ${profileNotifier.name}",
+                          style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.w600),
                         ),
                         Icon(Icons.edit),
                       ],
@@ -303,8 +292,7 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
 
                 // Editable Company Box
                 Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 15.0.w, vertical: 12.0.h),
+                  padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 12.0.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.white,
@@ -322,9 +310,8 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Company: ${companyController.text}", // Display the company name
-                          style: TextStyle(
-                              fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                          "Company: ${profileNotifier.company}",
+                          style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.w600),
                         ),
                         Icon(Icons.edit),
                       ],
@@ -335,8 +322,7 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
 
                 // Editable Email Box
                 Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 15.0.w, vertical: 12.0.h),
+                  padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 12.0.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.white,
@@ -354,9 +340,8 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Email: ${emailController.text}",
-                          style: TextStyle(
-                              fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                          "Email: ${profileNotifier.email}",
+                          style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.w600),
                         ),
                         Icon(Icons.edit),
                       ],
@@ -367,8 +352,7 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
 
                 // Editable Phone Box
                 Container(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: 15.0.w, vertical: 12.0.h),
+                  padding: EdgeInsets.symmetric(horizontal: 15.0.w, vertical: 12.0.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     color: Colors.white,
@@ -386,9 +370,8 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Phone: ${phoneController.text}",
-                          style: TextStyle(
-                              fontSize: 18.0.sp, fontWeight: FontWeight.w600),
+                          "Phone: ${profileNotifier.phone}",
+                          style: TextStyle(fontSize: 18.0.sp, fontWeight: FontWeight.w600),
                         ),
                         Icon(Icons.edit),
                       ],
@@ -428,6 +411,16 @@ class _ProfilePageState extends State<ProfilePageEmployer> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Method to show error messages
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
       ),
     );
   }
