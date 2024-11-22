@@ -13,7 +13,7 @@ class JobsNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Remove a job from the list
+  // Remove a job from the list 
   void deleteJob(Map<String, dynamic> job) {
     _jobs.remove(job);
     notifyListeners();
